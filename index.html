@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="demo-header">
+        <label for="toggleBootstrap">Toggle Bootstrap <input type="checkbox" id="toggleBootstrap" /></label>
+        <div>
+            dataType:
+            <label>XML <input type="radio" name="demo-dataType" value="xml" class="demo-dataType" /></label><label>JSON
+                <input type="radio" name="demo-dataType" value="json" class="demo-dataType" /></label>
+        </div>
+        <div>
+            Language:
+            <select id="setLanguage">
+                <% _.forEach(htmlWebpackPlugin.options.langFiles, function(langFile) { %>
+                    <option value="<%- langFile.locale %>">
+                        <%- langFile.nativeName %>
+                    </option>
+                    <% }); %>
+            </select>
+        </div>
+    </header>
+    <div class="content">
+        <h1 class="formbuilder-title">
+            jQuery formBuilder -
+            <button class="editForm">Render</button>
+        </h1>
+        <h1 class="formrender-title">
+            jQuery formRender -
+            <button class="editForm">Edit</button>
+            <button id="btnShow">Show UserData</button>
+        </h1>
+        <div class="build-wrap"></div>
+        <form class="render-wrap"></form>
+        <div class="action-buttons formbuilder-actions">
+            <h2>Actions</h2>
+            <table id="action-api" class="api-table"></table>
+        </div>
+        <div class="action-buttons formrender-actions">
+            <h2>Actions</h2>
+            <table id="demo-api" class="api-table"></table>
+        </div>
+    </div>
+    <div id="formbuilder-options"></div>
+    
+    <span id='spanResult'></span>
+    <script type="module" src="file:///C:/reactjs/formBuilder-master/src/js/form-builder.js"></script>
+    <script type="module" src="file:///C:/reactjs/formBuilder-master/src/js/form-render.js"></script>
+    <script type="module" src="file:///C:/reactjs/formBuilder-master/src/demo/js/demo.js"></script>
+    <!-- <script src="./src/demo/"></script> -->
+</body>
+</html>
