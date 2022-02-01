@@ -59,7 +59,7 @@ const FormBuilder = function (opts, element, $) {
   const subtypes = (config.subtypes = h.processSubtypes(opts.subtypes))
 
   const $stage = $(d.stage)
-  const $cbUL = $(d.controls) 
+  const $cbUL = $(d.controls)
 
   // Sortable fields
   /*$stage.sortable({
@@ -79,12 +79,12 @@ const FormBuilder = function (opts, element, $) {
     $stage.sortable('disable')
   }
 
-  if( opts.propertiesInModal){
+  if (opts.propertiesInModal) {
     $(document.body).append(m('div', '<div class="modal-dialog modal-lg" role="document"><div class="modal-content"><div class="modal-header"><h4 class="modal-title" id="myModalLabel">Form Builder</h4><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"></div><div class="modal-footer"></div></div></div>', {
-      'class':'modal fade',
+      'class': 'modal fade',
       'id': 'propertiesModal',
-      'tabindex':'-1',
-      'role':'dialog'
+      'tabindex': '-1',
+      'role': 'dialog'
     }))
   }
 
@@ -93,24 +93,24 @@ const FormBuilder = function (opts, element, $) {
   let hoveredItems = []
   // ControlBox with different fields
   $cbUL.sortable({
-    helper: function(e,elt) {
+    helper: function (e, elt) {
       const type = $(elt).attr('data-type')
       const helper = m('div', '<span>' + $(elt).find('span')[0].innerHTML + '</span>', {
-        'class':`formbuilder-icon-${type} input-control formbuilder-icon-dragged`,
+        'class': `formbuilder-icon-${type} input-control formbuilder-icon-dragged`,
         'data-type': type
       })
-      $(helper).css({'width': '200px', 'height': '35px'})
+      $(helper).css({ 'width': '200px', 'height': '35px' })
       return helper
     },
     opacity: 0.9,
     connectWith: $stage,
     cancel: '.formbuilder-separator',
     cursor: 'move',
-    cursorAt: { 
+    cursorAt: {
       left: 5,
-      top : 5
+      top: 5
     },
-    tolerance:'intersect',
+    tolerance: 'intersect',
     scroll: false,
     placeholder: 'ui-state-highlight',
     refreshPositions: true,
@@ -138,7 +138,7 @@ const FormBuilder = function (opts, element, $) {
       inputSets.forEach((row, index) => {
         let newRow = true
         row.forEach((fieldData, i) => {
-          prepFieldVars(trimObj(fieldData), true,newRow)
+          prepFieldVars(trimObj(fieldData), true, newRow)
           newRow = false
         })
       })
@@ -196,7 +196,7 @@ const FormBuilder = function (opts, element, $) {
   }
 
   // builds the standard formbuilder datastructure for a field definition
-  const prepFieldVars = ($field, isNew = false,newRow = true) => {
+  const prepFieldVars = ($field, isNew = false, newRow = true) => {
 
     const field = populateFieldVars($field, isNew)
     if (isNew) {
@@ -207,16 +207,16 @@ const FormBuilder = function (opts, element, $) {
     }
 
     opts.onAddField(data.lastID, field)
-    appendNewField(field, isNew,newRow)
+    appendNewField(field, isNew, newRow)
     opts.onAddFieldAfter(data.lastID, field)
     resetDropAreas() //don't change the order
     updateColumns()
     d.stage.classList.remove('empty')
   }
-  
+
   formBuilder.prepFieldVars = prepFieldVars
 
-  const populateFieldVars = function($field, isNew = false){
+  const populateFieldVars = function ($field, isNew = false) {
     let field = {}
     if ($field instanceof jQuery) {
       // get the default type etc & label for this field
@@ -257,7 +257,7 @@ const FormBuilder = function (opts, element, $) {
       field.name = nameAttr(field)
     }
 
-    if (isNew && ['text', 'number', 'file', 'date', 'select', 'textarea', 'autocomplete'].includes(field.type)) {
+    if (isNew && ['text', 'number', 'file', 'date', 'select', 'textarea', 'autocomplete'].includes(field.type) && !['checkbox', 'checkbox-group', 'radio-group'].includes(field.subtype)) {
       field.className = field.className || 'form-control'
     }
 
@@ -280,7 +280,7 @@ const FormBuilder = function (opts, element, $) {
           className = className.replace(/(^|\s)row-\S+/g, '')
           className = className.replace(/(^|\s)col-md-\S+/g, '')
           fieldData.className = className
-          prepFieldVars(fieldData, true,newRow)
+          prepFieldVars(fieldData, true, newRow)
           newRow = false
         })
       })
@@ -375,7 +375,7 @@ const FormBuilder = function (opts, element, $) {
         'other',
         'options',
       ],
-      text: defaultAttrs.concat(['subtype', 'maxlength']),
+      text: defaultAttrs.concat(['subtype', 'maxlength', 'options', 'multiple']),
       date: defaultAttrs,
       file: defaultAttrs.concat(['subtype', 'multiple']),
       header: ['label', 'subtype', 'className', 'access'],
@@ -936,12 +936,12 @@ const FormBuilder = function (opts, element, $) {
 
     return requireField
   }
-  const appendNewField = function(values, isNew = true,newRow = true) {
+  const appendNewField = function (values, isNew = true, newRow = true) {
 
-    const rowWrapper = createNewField(values, isNew,newRow)
+    const rowWrapper = createNewField(values, isNew, newRow)
     const $rowWrapper = $(rowWrapper)
     const field = $rowWrapper.find('.form-field.fb-row')[0]
-    if( newRow ){
+    if (newRow) {
       if (typeof h.stopIndex !== 'undefined') {
         $('> .fb-fields-children', d.stage).eq(h.stopIndex).before(rowWrapper)
       } else {
@@ -954,9 +954,9 @@ const FormBuilder = function (opts, element, $) {
   }
 
 
-  
+
   // Append the new field to the editor
-  const createNewField = function (values, isNew = true,newRow = true) {
+  const createNewField = function (values, isNew = true, newRow = true) {
 
     data.lastID = h.incrementId(data.lastID)
 
@@ -965,10 +965,10 @@ const FormBuilder = function (opts, element, $) {
     if (type === 'hidden') {
       label = `${mi18n.get(type)}: ${values.name}`
     }
-    else{
+    else {
       label = values.label || (isNew ? i18n.get(type) || mi18n.get('label') : '')
     }
-   
+
     const disabledFieldButtons = opts.disabledFieldButtons[type] || values.disabledFieldButtons
     let fieldButtons = [
       m('a', null, {
@@ -1019,12 +1019,12 @@ const FormBuilder = function (opts, element, $) {
     fieldContents.push(m('span', '?', descAttrs))
     let formElements
     fieldContents.push(m('div', '', { className: 'prev-holder' }))
-    if( !opts.propertiesInModal ){
+    if (!opts.propertiesInModal) {
       formElements = m('div', [advFields(values), m('a', mi18n.get('close'), { className: 'close-field' })], {
         className: 'form-elements',
       })
     }
-    else{
+    else {
       formElements = m('div', [advFields(values), ''], {
         className: 'form-elements',
       })
@@ -1048,9 +1048,9 @@ const FormBuilder = function (opts, element, $) {
     const colItems = []
     const dropZoneLeft = h.generateDropZones(true)
     const dropZoneRight = h.generateDropZones(true)
-    colItems.push( dropZoneLeft )
-    colItems.push( fieldBlock )
-    colItems.push( dropZoneRight )
+    colItems.push(dropZoneLeft)
+    colItems.push(fieldBlock)
+    colItems.push(dropZoneRight)
     makeDroppable($(dropZoneLeft))
     makeDroppable($(dropZoneRight))
 
@@ -1058,15 +1058,15 @@ const FormBuilder = function (opts, element, $) {
       class: 'fb-field-col-12 fb-field-draggable',
       type: type,
       id: data.lastID,
-      style:'display:flex'
+      style: 'display:flex'
     })
 
     //New Row creation
     let rowWrapper = {}
-    if( newRow ){
-      rowWrapper = createNewRow(true, column,data.lastID,type, values)
+    if (newRow) {
+      rowWrapper = createNewRow(true, column, data.lastID, type, values)
     }
-    else{
+    else {
       $('.fb-fields-children').last().find('.fb-row').append(column)
       rowWrapper = $('.fb-fields-children').last()
       $(column).data('fieldData', { attrs: values })
@@ -1074,97 +1074,97 @@ const FormBuilder = function (opts, element, $) {
     }
     return rowWrapper
   }
-  const createNewRow = function(isNew,content, dataId, type, values){
+  const createNewRow = function (isNew, content, dataId, type, values) {
     const firstRow = $('.fb-row').length
     const rowItems = []
-    const dropZoneAbove = h.generateDropZones(false,firstRow)
+    const dropZoneAbove = h.generateDropZones(false, firstRow)
     const dropZoneBelow = h.generateDropZones(false)
     makeDroppable($(dropZoneAbove))
     makeDroppable($(dropZoneBelow))
 
-    const row = m('div', content, {class: 'form-field fb-row no-padding',type: type})
-    rowItems.push( dropZoneAbove )
-    rowItems.push( row )
-    rowItems.push( dropZoneBelow )
+    const row = m('div', content, { class: 'form-field fb-row no-padding', type: type })
+    rowItems.push(dropZoneAbove)
+    rowItems.push(row)
+    rowItems.push(dropZoneBelow)
 
-    const rowWrapper = m('div', rowItems, {class: 'fb-fields-children'})
+    const rowWrapper = m('div', rowItems, { class: 'fb-fields-children' })
     $(content).data('fieldData', { attrs: values })
-    
+
     // generate the control, insert it into the list item & add it to the stage
-    if( isNew ){
+    if (isNew) {
       h.updatePreview($(content))
     }
     const $rowWrapper = $(rowWrapper)
     return $rowWrapper
   }
 
-  const drop = function(ev, ui){
+  const drop = function (ev, ui) {
     hoveredItems = []
-    if( $(ev.target).is('.hover-selected') ){
+    if ($(ev.target).is('.hover-selected')) {
       $(ev.target).removeClass('hover-selected')
       const $dropContainer = $(ev.target)
       const $dragContainer = $(ui.draggable)
       let $dragElement = undefined
       let isNew = false
-      if ( $dropContainer.is('.fb-drop-target')){
+      if ($dropContainer.is('.fb-drop-target')) {
         const $row = $dropContainer.parents('.fb-row')
-        if( $row.find('.fb-field-draggable').length >= opts.maxFieldsInRow ){
-          if( !$dragContainer.is('.fb-field-draggable') ){
-            opts.notify.error('Error: ' + mi18n.get('maxFieldsInRow', opts.maxFieldsInRow) )
+        if ($row.find('.fb-field-draggable').length >= opts.maxFieldsInRow) {
+          if (!$dragContainer.is('.fb-field-draggable')) {
+            opts.notify.error('Error: ' + mi18n.get('maxFieldsInRow', opts.maxFieldsInRow))
             return
           }
-          else{
-            if( !$dragContainer.parents('.fb-row').is($row) ){
-              opts.notify.error('Error: ' + mi18n.get('maxFieldsInRow', opts.maxFieldsInRow) )
+          else {
+            if (!$dragContainer.parents('.fb-row').is($row)) {
+              opts.notify.error('Error: ' + mi18n.get('maxFieldsInRow', opts.maxFieldsInRow))
               return
             }
           }
         }
       }
 
-      if( $dragContainer.is('.fb-field-draggable')){
-        if( $dropContainer.is('.fb-drop-target-wrapper')){
-          $dragElement = $(createNewRow(false,$dragContainer[0],$dragContainer.id,$dragContainer.attr('type'),$dragContainer.data('fieldData')))
+      if ($dragContainer.is('.fb-field-draggable')) {
+        if ($dropContainer.is('.fb-drop-target-wrapper')) {
+          $dragElement = $(createNewRow(false, $dragContainer[0], $dragContainer.id, $dragContainer.attr('type'), $dragContainer.data('fieldData')))
         }
-        else if ( $dropContainer.is('.fb-drop-target')){
+        else if ($dropContainer.is('.fb-drop-target')) {
           $dragElement = $dragContainer
         }
       }
-      else if ($dragContainer.is('.input-control')){
+      else if ($dragContainer.is('.input-control')) {
         isNew = true
         const $control = $(ui.draggable)
         const values = populateFieldVars($control, true)
         $dragElement = $(createNewField(values, false))
-        if( $dropContainer.is('.fb-drop-target')){
+        if ($dropContainer.is('.fb-drop-target')) {
           $dragElement = $dragElement.find('.fb-field-draggable')[0]
         }
       }
 
-        //Existing object
-      if( $dropContainer.is('.fb-drop-target-wrapper') || $dropContainer.is('.fb-dropzone-new-field')){
+      //Existing object
+      if ($dropContainer.is('.fb-drop-target-wrapper') || $dropContainer.is('.fb-dropzone-new-field')) {
         //Row Insertion
         const $droppedParent = $dropContainer.parent()
         const droppedIndex = $droppedParent.index()
-        if( $dropContainer.is('.fb-drop-target-wrapper') ){
-          if( $dropContainer.index() == 0 ){
+        if ($dropContainer.is('.fb-drop-target-wrapper')) {
+          if ($dropContainer.index() == 0) {
             $('> .fb-fields-children', d.stage).eq(droppedIndex).before($dragElement)
           }
-          else{
+          else {
             $('> .fb-fields-children', d.stage).eq(droppedIndex).after($dragElement)
           }
         }
-        else{
+        else {
           $(d.stage).append($dragElement)
         }
       }
-      else if ( $dropContainer.is('.fb-drop-target')){
+      else if ($dropContainer.is('.fb-drop-target')) {
         //Column Insertion
         const $droppedParent = $dropContainer.parents('.fb-row')
         const droppedIndex = $dropContainer.parent().index()
-        if( $dropContainer.index() == 0){
+        if ($dropContainer.index() == 0) {
           $('> .fb-field-draggable', $droppedParent).eq(droppedIndex).before($dragElement)
         }
-        else{
+        else {
           $('> .fb-field-draggable', $droppedParent).eq(droppedIndex).after($dragElement)
         }
       }
@@ -1173,75 +1173,75 @@ const FormBuilder = function (opts, element, $) {
     }
   }
 
-  const updateColumns = function(){
-    $('.fb-row').each((i,row) => {
+  const updateColumns = function () {
+    $('.fb-row').each((i, row) => {
       const cols = Math.round(12 / ($(row).find('.fb-field-draggable').length))
-      
-      $(row).find('.fb-field-draggable').each((i,col) => {
-        $(col).removeClass (function (index, css) {
-          return (css.match (/(^|\s)fb-field-col-\S+/g) || []).join(' ')
+
+      $(row).find('.fb-field-draggable').each((i, col) => {
+        $(col).removeClass(function (index, css) {
+          return (css.match(/(^|\s)fb-field-col-\S+/g) || []).join(' ')
         })
-       $(col).addClass(`fb-field-col-${cols}`)
+        $(col).addClass(`fb-field-col-${cols}`)
       })
 
-      if( $(row).find('.fb-field-draggable').length >= opts.maxFieldsInRow && opts.hideDropZones){
-        $(row).find('.fb-drop-target').css('display','none')
+      if ($(row).find('.fb-field-draggable').length >= opts.maxFieldsInRow && opts.hideDropZones) {
+        $(row).find('.fb-drop-target').css('display', 'none')
       }
     })
 
-    $('.fb-field-draggable:not(.ui-draggable)').draggable({ 
+    $('.fb-field-draggable:not(.ui-draggable)').draggable({
       revert: false,
       zIndex: 100,
-      helper: function(e) {
+      helper: function (e) {
         const type = $(this).attr('type')
         return m('div', '<span>' + $(this).find('.field-label')[0].innerHTML + '</span>', {
-          'class':`formbuilder-icon-${type} input-control input-control-9 formbuilder-icon-dragged`,
+          'class': `formbuilder-icon-${type} input-control input-control-9 formbuilder-icon-dragged`,
           'data-type': type
         })
       },
       stack: '.formbuilder-icon-dragged',
-      cursorAt: { 
+      cursorAt: {
         left: 5,
-        top : 5
+        top: 5
       },
-      start: function(  ) { 
+      start: function () {
         $('.fb-drop-target').addClass('is-active')
         $('.fb-drop-target-wrapper').addClass('is-active')
       },
-      stop: function(  ) { 
+      stop: function () {
         $('.fb-drop-target-wrapper').removeClass('is-active')
         $('.fb-drop-target').removeClass('is-active')
       }
     })
   }
-  const resetDropAreas = function( ui ){
-    if( ui !== undefined)
-      $(ui.helper).remove() 
+  const resetDropAreas = function (ui) {
+    if (ui !== undefined)
+      $(ui.helper).remove()
 
     $('.fb-fields-children:not(:has(.fb-row))').remove()
     $('.fb-fields-children > .fb-row:empty').closest('.fb-fields-children').remove()
-    $('.fb-fields-children').find('.fb-drop-target-wrapper').css('display','block')
-    $('.fb-fields-children').find('.fb-drop-target-wrapper').each((i,dropZone) => {
-      if( i && !$(dropZone).index()){
-        $(dropZone).css('display','none')
+    $('.fb-fields-children').find('.fb-drop-target-wrapper').css('display', 'block')
+    $('.fb-fields-children').find('.fb-drop-target-wrapper').each((i, dropZone) => {
+      if (i && !$(dropZone).index()) {
+        $(dropZone).css('display', 'none')
       }
     })
     const $cols = $('.fb-row').find('.fb-drop-target')
-    $cols.css('display','block')
-    $cols.each((i,dropZone) => {
-      if($(dropZone).index() > 0 && !$(dropZone).parent().is(':last-child')){
-        $(dropZone).css('display','none')
+    $cols.css('display', 'block')
+    $cols.each((i, dropZone) => {
+      if ($(dropZone).index() > 0 && !$(dropZone).parent().is(':last-child')) {
+        $(dropZone).css('display', 'none')
       }
     })
-    if( $(d.stage).find('.fb-fields-children').length > 0 ){
+    if ($(d.stage).find('.fb-fields-children').length > 0) {
       $(d.stage).removeClass('empty fb-dropzone-new-field')
-      if( $(d.stage).is('.ui-droppable') ){
+      if ($(d.stage).is('.ui-droppable')) {
         $(d.stage).droppable('destroy')
       }
     }
-    else{
+    else {
       $(d.stage).addClass('empty fb-dropzone-new-field')
-      if( !$(d.stage).is('.ui-droppable') ){
+      if (!$(d.stage).is('.ui-droppable')) {
         makeDroppable($(d.stage))
       }
     }
@@ -1249,8 +1249,8 @@ const FormBuilder = function (opts, element, $) {
   formBuilder.resetDropAreas = resetDropAreas
   formBuilder.updateColumns = updateColumns
 
-  const triggerEvents = function(isNew, field, type){
-    
+  const triggerEvents = function (isNew, field, type) {
+
     if (opts.typeUserEvents[type] && opts.typeUserEvents[type].onadd) {
       opts.typeUserEvents[type].onadd(field)
     }
@@ -1265,26 +1265,26 @@ const FormBuilder = function (opts, element, $) {
       }
     }
   }
-  
-  const hoverOver = function(ev){
+
+  const hoverOver = function (ev) {
     hoveredItems.push(ev.target)
-    if( $('.is-hover').length > 1 ){
+    if ($('.is-hover').length > 1) {
       $(ev.target).removeClass('is-hover')
     }
-    else{
+    else {
       $(ev.target).addClass('hover-selected')
     }
   }
 
-  const hoverOut = function(ev){
-    hoveredItems.splice(hoveredItems.indexOf(ev.target),1)
+  const hoverOut = function (ev) {
+    hoveredItems.splice(hoveredItems.indexOf(ev.target), 1)
     $(ev.target).removeClass('hover-selected')
-    if(hoveredItems.length) {
+    if (hoveredItems.length) {
       $(hoveredItems.pop()).addClass('hover-selected is-hover')
     }
   }
-  
-  const makeDroppable = function($dropItem){
+
+  const makeDroppable = function ($dropItem) {
     $dropItem.droppable({
       hoverClass: 'is-hover',
       tolerance: 'touch',
@@ -1370,9 +1370,9 @@ const FormBuilder = function (opts, element, $) {
     return $clone
   }
 
-  const editProperties = function (e){
+  const editProperties = function (e) {
     const targetID = $(e.target).parents('.fb-field-draggable:eq(0)').attr('id')
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       const field = document.getElementById(targetID)
       if (!field) {
         return field
@@ -1382,25 +1382,25 @@ const FormBuilder = function (opts, element, $) {
       const $editPanel = $('.frm-holder', field)
       $modal.modal('show')
       //e.handled = true
-      $modal.on('shown.bs.modal', function(e) {
+      $modal.on('shown.bs.modal', function (e) {
         field.classList.toggle('editing')
         h.updatePreview($(field))
         opts.onOpenFieldEdit($editPanel[0])
         document.dispatchEvent(events.fieldEditOpened)
-        $('.modal-body',$modal).append($editPanel)
+        $('.modal-body', $modal).append($editPanel)
         $(this).off('shown.bs.modal')
       })
 
-      $modal.on('hide.bs.modal', function(e) {
+      $modal.on('hide.bs.modal', function (e) {
         field.classList.toggle('editing')
-        $('.fb-field-wrapper',field).append($('.frm-holder',$modal))
+        $('.fb-field-wrapper', field).append($('.frm-holder', $modal))
         h.updatePreview($(field))
         opts.onCloseFieldEdit($editPanel[0])
         document.dispatchEvent(events.fieldEditClosed)
         $(this).off('hide.bs.modal')
       })
     }
-    else{
+    else {
       if (e.handled !== true) {
         h.toggleEdit(targetID)
         e.handled = true
@@ -1433,7 +1433,7 @@ const FormBuilder = function (opts, element, $) {
   // delete options
   $(document.body).on('click touchstart', '.remove', e => {
     let field = null
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       field = document.getElementById(selectedPropertiesId)
       const $field = $(e.target).parents('.form-group:eq(0)')
       const type = field.getAttribute('type')
@@ -1451,7 +1451,7 @@ const FormBuilder = function (opts, element, $) {
         })
       }
     }
-    else{
+    else {
       const $field = $(e.target).parents('.fb-field-draggable:eq(0)')
       field = $field[0]
       const type = field.getAttribute('type')
@@ -1469,7 +1469,7 @@ const FormBuilder = function (opts, element, $) {
         })
       }
     }
-    
+
   })
 
   // touch focus
@@ -1506,11 +1506,11 @@ const FormBuilder = function (opts, element, $) {
   //sub type change
   $(document.body).on('change', '[name="subtype"]', e => {
     let $field
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       const field = $(e.target).parents('.form-elements:eq(0)')
       $field = $(field)
     }
-    else{
+    else {
       $field = $(e.target).closest('.fb-field-draggable')
     }
     const $valWrap = $('.value-wrap', $field)
@@ -1555,13 +1555,13 @@ const FormBuilder = function (opts, element, $) {
     if (!target.classList.contains('fld-label')) return
 
     const value = target.value || target.innerHTML
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       const field = document.getElementById(selectedPropertiesId)
       const label = $(field).closest('.fb-field-draggable').find('.field-label')
       label.empty()
       label.append(parsedHtml(value))
     }
-    else{
+    else {
       const label = closest(target, '.fb-field-draggable').querySelector('.field-label')
       label.innerHTML = parsedHtml(value)
     }
@@ -1573,11 +1573,11 @@ const FormBuilder = function (opts, element, $) {
   //update tooltip
   $(document.body).on('keyup', 'input[name="description"]', function (e) {
     let $field
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       const field = document.getElementById(selectedPropertiesId)
       $field = $(field).closest('.fb-field-draggable')
     }
-    else{
+    else {
       $field = $(e.target).parents('.fb-field-draggable:eq(0)')
     }
     const closestToolTip = $('.tooltip-element', $field)
@@ -1629,9 +1629,9 @@ const FormBuilder = function (opts, element, $) {
     const currentItem = $(evt.target).closest('.fb-field-draggable')
     const $clone = cloneItem(currentItem)
 
-    const rowWrapper = createNewRow(true, $clone[0],data.lastID,$clone.attr('type'), {})
+    const rowWrapper = createNewRow(true, $clone[0], data.lastID, $clone.attr('type'), {})
     const $rowWrapper = $(rowWrapper)
-    $rowWrapper.find('.fb-drop-target').each(function( index ) {
+    $rowWrapper.find('.fb-drop-target').each(function (index) {
       makeDroppable($(this))
     })
     const field = $rowWrapper.find('.form-field.fb-row')[0]
@@ -1685,7 +1685,7 @@ const FormBuilder = function (opts, element, $) {
     $btnStyle.val(styleVal)
     $button.siblings('.btn').removeClass('selected')
     $button.addClass('selected')
-    if( !opts.propertiesInModal ){
+    if (!opts.propertiesInModal) {
       h.updatePreview($btnStyle.closest('.fb-field-draggable'))
     }
     h.save()
@@ -1693,11 +1693,11 @@ const FormBuilder = function (opts, element, $) {
 
   // Attach a callback to toggle required asterisk
   $(document.body).on('click', '.fld-required', e => {
-    if( opts.propertiesInModal ){
+    if (opts.propertiesInModal) {
       const field = document.getElementById(selectedPropertiesId)
       $(field).closest('.fb-field-draggable').find('.required-asterisk').toggle()
     }
-    else{
+    else {
       $(e.target).closest('.fb-field-draggable').find('.required-asterisk').toggle()
     }
   })

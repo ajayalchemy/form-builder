@@ -9,6 +9,7 @@ import controlFineUploader from './file.fineuploader'
 import controlTextarea from './textarea'
 import controlTinymce from './textarea.tinymce'
 import controlQuill from './textarea.quill'
+import controlMaster from './text.master'
 
 export default {
   controlAutocomplete,
@@ -22,4 +23,5 @@ export default {
   controlTextarea,
   controlTinymce,
   controlQuill,
+  controlMaster,
 }

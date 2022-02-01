@@ -43,4 +43,4 @@ export default class controlText extends control {
 
 // register this control for the following types & text subtypes
 control.register(['text', 'file', 'date', 'number'], controlText)
-control.register(['text', 'password', 'email', 'color', 'tel'], controlText, 'text')
+control.register(['text', 'password', 'email', 'color', 'tel', 'file', 'date', 'number'], controlText, 'text')

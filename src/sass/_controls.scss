@@ -88,7 +88,7 @@
     }
 
     &.moving {
-      opacity: .6;
+      opacity: 0.6;
     }
 
     &.formbuilder-separator {
@@ -135,7 +135,7 @@
 
     button {
       width: 100%;
-      font-size: .85em !important;
+      font-size: 0.85em !important;
       display: block !important;
       border-radius: 0 !important;
       margin-top: -1px;
@@ -160,5 +160,25 @@
 
   button {
     border: 0 none;
+  }
+}
+.checkbox-group .form-control,
+.radio-group .form-control,
+.checkbox .form-control {
+  -webkit-appearance: auto !important;
+  appearance: auto !important;
+  height: auto;
+  width: auto !important;
+  display: inline !important;
+  margin-right: 4px !important;
+  
+  &:checked {
+    box-shadow: none !important;
+  }
+  &:focus {
+    box-shadow: none !important;
+  }
+  &:active{
+    box-shadow: none !important;
   }
 }

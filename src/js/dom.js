@@ -1,6 +1,7 @@
 export const instanceDom = {}
 export const defaultSubtypes = {
   text: ['text', 'password', 'email', 'color', 'tel'],
+  select: ['text', 'password', 'email', 'color', 'tel'],
   header: ['h1', 'h2', 'h3'],
   button: ['button', 'submit', 'reset'],
   paragraph: ['p', 'address', 'blockquote', 'canvas', 'output'],
@@ -45,7 +46,7 @@ export const filter = (elems, term, show = true) => {
   return filteredElems
 }
 
-export const optionFields = ['select', 'checkbox-group', 'checkbox', 'radio-group', 'autocomplete']
+export const optionFields = ['select', 'checkbox-group', 'checkbox', 'radio-group', 'autocomplete', 'text']
 
 export const optionFieldsRegEx = new RegExp(`(${optionFields.join('|')})`)
 /**
