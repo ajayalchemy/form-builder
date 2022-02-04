@@ -279,7 +279,8 @@ const FormBuilder = function (opts, element, $) {
           let className = fieldData.className
           className = className.replace(/(^|\s)row-\S+/g, '')
           className = className.replace(/(^|\s)col-md-\S+/g, '')
-          fieldData.className = className
+          Object.assign({}, fieldData, className)
+          // fieldData.className = className
           prepFieldVars(fieldData, true, newRow)
           newRow = false
         })
