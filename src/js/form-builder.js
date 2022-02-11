@@ -376,7 +376,7 @@ const FormBuilder = function (opts, element, $) {
         'other',
         'options',
       ],
-      text: defaultAttrs.concat(['subtype', 'maxlength', 'options', 'multiple']),
+      text: defaultAttrs.concat(['subtype', 'value', 'maxlength', 'options', 'multiple']),
       date: defaultAttrs,
       file: defaultAttrs.concat(['subtype', 'multiple']),
       header: ['label', 'subtype', 'className', 'access'],
