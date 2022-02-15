@@ -87,6 +87,9 @@ const FormBuilder = function (opts, element, $) {
       'role': 'dialog'
     }))
   }
+  $('.close').click(function () {
+    $('#propertiesModal').modal('hide')
+  })
 
   const $modal = $('#propertiesModal')
   let selectedPropertiesId = null
