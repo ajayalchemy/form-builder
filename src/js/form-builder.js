@@ -910,11 +910,14 @@ const FormBuilder = function (opts, element, $) {
       if (attribute === 'value') {
         visibility = values.subtype && values.subtype === 'quill' && 'none'
       }
-
-      attributefield = m('div', [attributeLabel, inputWrap], {
+      const parentConfig = {
         className: `form-group ${attribute}-wrap`,
         style: `display: ${visibility}`,
-      })
+      }
+      if (['label', 'name'].includes(attribute)) {
+        parentConfig['style'] = 'display: none !important'
+      }
+      attributefield = m('div', [attributeLabel, inputWrap], parentConfig)
     }
 
     return attributefield.outerHTML
