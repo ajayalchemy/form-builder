@@ -1,6 +1,6 @@
 {
 	"name": "form-builder2",
-	"version": "2.9.0",
+	"version": "3.3.0",
 	"description": "Drag and drop form builder",
 	"main": "dist/form-builder.min.js",
 	"repository": {
