@@ -144,6 +144,7 @@ const webpackConfig = {
 		extensions: ['.js', '.scss'],
 	},
 	devServer: {
+		disableHostCheck: true,
 		inline: true,
 		contentBase: 'demo/',
 		noInfo: true,
