@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import mi18n from 'mi18n'
 import { instanceDom, empty, remove, optionFields } from './dom'
 import { instanceData } from './data'
@@ -197,15 +198,15 @@ export default class Helpers {
         if (!$row.hasClass('disabled-field')) {
           const rows = []
           const cols = $row.find('.fb-field-wrapper').length
-          const bootstrapClassName = 'row-' + (index+1) +' col-md-' + parseInt(12/cols)
-          $row.find('.fb-field-wrapper').each( function(i, field) {
+          const bootstrapClassName = 'row-' + (index + 1) + ' col-md-' + parseInt(12 / cols)
+          $row.find('.fb-field-wrapper').each(function (i, field) {
             const $field = $(field)
             let fieldData = _this.getTypes($field)
             const $roleInputs = $('.roles-field:checked', field)
             const roleVals = $roleInputs.map(index => $roleInputs[index].value).get()
-  
+
             fieldData = Object.assign({}, fieldData, _this.getAttrVals(field))
-  
+
             if (fieldData.subtype) {
               if (fieldData.subtype === 'quill') {
                 const id = `${fieldData.name}-preview`
@@ -222,39 +223,39 @@ export default class Helpers {
                 }
               }
             }
-            
+
             if (roleVals.length) {
               fieldData.role = roleVals.join(',')
             }
-            if(typeof fieldData.className == 'undefined') {
-              if( typeof fieldData.class != 'undefined' ){
+            if (typeof fieldData.className == 'undefined') {
+              if (typeof fieldData.class != 'undefined') {
                 fieldData.className = fieldData.class
               }
-              else{
+              else {
                 fieldData.className = ''
               }
             }
-  
+
             if (fieldData.className) {
               const match = /(?:^|\s)btn-(.*?)(?:\s|$)/g.exec(fieldData.className)
               if (match) {
                 fieldData.style = match[1]
               }
             }
-            if( fieldData.hasOwnProperty('className') ){
-              fieldData = Object.assign({}, fieldData, {'className':(fieldData.className.length) ? fieldData.className + ' ' + bootstrapClassName : bootstrapClassName})
+            if (fieldData.hasOwnProperty('className')) {
+              fieldData = Object.assign({}, fieldData, { 'className': (fieldData.className.length) ? fieldData.className + ' ' + bootstrapClassName : bootstrapClassName })
             }
-            else{
-              fieldData = Object.assign({}, fieldData, {'className':bootstrapClassName})
+            else {
+              fieldData = Object.assign({}, fieldData, { 'className': bootstrapClassName })
             }
             fieldData = trimObj(fieldData)
-  
+
             const multipleField = fieldData.type && fieldData.type.match(d.optionFieldsRegEx)
-  
+
             if (multipleField) {
               fieldData.values = _this.fieldOptionData($field)
             }
-  
+
             rows.push(fieldData)
           })
           formData.push(rows)
@@ -1149,31 +1150,31 @@ export default class Helpers {
     return data[type](formatted)
   }
 
-  generateDropZones(vertical = false, hide = false){ 
-    
+  generateDropZones(vertical = false, hide = false) {
+
     const dashedZone = []
-    if( vertical ){
-      dashedZone.push( m('div','', { className: 'form-field-dropzone form-field-dropzone-vertical' }) )
-      dashedZone.push( m('div','', { className: 'dashed-dropzone dashed-dropzone-vertical' }) )
+    if (vertical) {
+      dashedZone.push(m('div', '', { className: 'form-field-dropzone form-field-dropzone-vertical' }))
+      dashedZone.push(m('div', '', { className: 'dashed-dropzone dashed-dropzone-vertical' }))
     }
-    else{
-      dashedZone.push( m('div','', { className: 'form-field-dropzone form-field-dropzone-horizontal' }) )
-      dashedZone.push( m('div','', { className: 'dashed-dropzone dashed-dropzone-horizontal' }) )
+    else {
+      dashedZone.push(m('div', '', { className: 'form-field-dropzone form-field-dropzone-horizontal' }))
+      dashedZone.push(m('div', '', { className: 'dashed-dropzone dashed-dropzone-horizontal' }))
     }
 
-    const zoneHolder = m('div',dashedZone, { className: 'dropzone-holder' })
-    let dropTarget = m('div',zoneHolder, { className: 'fb-drop-target' })
-    if( !vertical){
-      dropTarget = m('div',zoneHolder, { className: 'fb-drop-target-wrapper', style:'display:' + ((hide) ? 'none':'block') })
+    const zoneHolder = m('div', dashedZone, { className: 'dropzone-holder' })
+    let dropTarget = m('div', zoneHolder, { className: 'fb-drop-target' })
+    if (!vertical) {
+      dropTarget = m('div', zoneHolder, { className: 'fb-drop-target-wrapper', style: 'display:' + ((hide) ? 'none' : 'block') })
     }
     return dropTarget
   }
 
-  findObjectIndex($objects,$object ){
+  findObjectIndex($objects, $object) {
 
 
 
   }
-  
+
 
 }
