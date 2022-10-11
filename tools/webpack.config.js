@@ -1,5 +1,6 @@
 const pkg = require('../package.json')
-const { resolve, join } = require('path')
+const path = require('path')
+const { resolve, join } = path
 const autoprefixer = require('autoprefixer')
 const { BannerPlugin, DefinePlugin } = require('webpack')
 const CompressionPlugin = require('compression-webpack-plugin')
@@ -151,7 +152,7 @@ const webpackConfig = {
 		writeToDisk: true,
 		open: true,
 		host: 'localhost',
-		port: 3000
+		port: 8080
 	},
 }
 
