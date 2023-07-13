@@ -152,7 +152,7 @@ const webpackConfig = {
 		writeToDisk: true,
 		open: true,
 		host: 'localhost',
-		port: 8080
+		port: 8888
 	},
 }
 
